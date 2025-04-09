@@ -1,0 +1,27 @@
+version: 0.2
+
+env:
+  variables:
+    BPK_E2E_DB: "e2e_ci"
+    CI: "true"
+    HOME: "/root"
+  git-credential-helper: yes
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+    commands:
+      - curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh
+      - chmod +x linux-install.sh
+      - sudo ./linux-install.sh
+
+  build:
+    commands:
+      - clojure -T:build ci
+
+cache:
+  paths:
+    - '/root/.m2/**/*'
+    - '/root/.npm/**/*'
+    - '/root/.cache/pip/**/*'
